@@ -1,21 +1,35 @@
 <script lang="ts" setup>
-import HelloWorld from './components/HelloWorld.vue'</script>
+import { useMessagesStore } from './stores/messages'
+
+const messagesStore = useMessagesStore()
+</script>
 
 <template>
-  <img id="logo" alt="Wails logo" src="./assets/images/logo-universal.png"/>
-  <HelloWorld/>
+  <v-app>
+    <v-main>
+      <router-view />
+    </v-main>
+    
+    <!-- Global Messages Bar -->
+    <v-snackbar
+      v-for="message in messagesStore.messages"
+      :key="message.id"
+      v-model="message.visible"
+      :color="message.color"
+      :timeout="message.timeout"
+      location="bottom"
+      @update:model-value="(value: boolean) => !value && messagesStore.removeMessage(message.id)"
+    >
+      {{ message.text }}
+      <template #actions>
+        <v-btn
+          variant="text"
+          @click="messagesStore.removeMessage(message.id)"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+  </v-app>
 </template>
 
-<style>
-#logo {
-  display: block;
-  width: 50%;
-  height: 50%;
-  margin: auto;
-  padding: 10% 0 0;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-origin: content-box;
-}
-</style>
