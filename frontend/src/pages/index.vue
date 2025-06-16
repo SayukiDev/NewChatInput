@@ -45,12 +45,11 @@
           
           <v-col cols="6">
             <v-btn
-              color="secondary"
+              color="warning"
               variant="outlined"
               block
               size="large"
               @click="handleClear"
-              :disabled="!InputTextNotNull"
             >
               <v-icon left>mdi-eraser</v-icon>
               Clear
@@ -90,24 +89,31 @@ const handleSend = () => {
 }
 
 const handleClear = () => {
-  inputText.value = ''
-  SendMessage('').then(()=>{
-    messagesStore.addInfo('Input cleared')
-  }).catch((error) => {
-    messagesStore.addError(`Failed to clear input: ${error.message}`)
-  })
+  if (inputText?.value.trim()) {
+    inputText.value = ''
+    messagesStore.addSuccess('Input cleared')
+  }else{
+    SendMessage('').then(()=>{
+      messagesStore.addInfo('ChatBox cleared')
+    }).catch((error) => {
+      messagesStore.addError(`Failed to clear input: ${error.message}`)
+    })
+  }
 }
 
 const handleKeydown = (event: KeyboardEvent) => {
-  if (event.key === 'Enter' && !event.shiftKey) {
-    event.preventDefault()
-    handleSend()
+  switch (event.key) {
+    case 'Enter':
+      if (!event.shiftKey) {
+        handleSend()
+      }
+      break
+    case 'Delete':
+      handleClear()
+      break
+    default:
+      return
   }
-  // Shift+Enter allows default behavior (new line)
+  event.preventDefault()
 }
 </script>
-
-<route lang="yaml">
-meta:
-  layout: default
-</route>
