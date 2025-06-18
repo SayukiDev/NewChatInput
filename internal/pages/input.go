@@ -1,6 +1,9 @@
 package pages
 
-import "ChatInput/internal/service"
+import (
+	"ChatInput/internal/service"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
+)
 
 type Input struct {
 	srv     *service.Service
@@ -19,4 +22,14 @@ func (i *Input) startup(srv *service.Service) {
 
 func (i *Input) SendMessage(message string) error {
 	return i.srv.SendChatboxMsg(message, i.srv.Option.TTS, false)
+}
+
+func (i *Input) SetFullInputMode(mode bool) {
+	if mode {
+		w, h := runtime.WindowGetSize(i.srv.AppCtx)
+		runtime.WindowSetSize(i.srv.AppCtx, w, h-100)
+	} else {
+		w, h := runtime.WindowGetSize(i.srv.AppCtx)
+		runtime.WindowSetSize(i.srv.AppCtx, w, h+100)
+	}
 }
