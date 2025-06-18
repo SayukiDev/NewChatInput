@@ -24,6 +24,7 @@ type Options struct {
 type HookFunc func(o *Options) error
 
 type VoiceVox struct {
+	AutoStart bool     `json:"auto_start"`
 	Path      string   `json:"path"`
 	LineLimit int      `json:"line_limit"`
 	Selected  int      `json:"selected"`
@@ -39,6 +40,7 @@ func NewOptions(p string) *Options {
 		TTS:          false,
 		VoiceControl: false,
 		VoiceVox: VoiceVox{
+			AutoStart: false,
 			Path:      "./windows-nvidia/run.exe",
 			LineLimit: 50,
 			Selected:  -1,

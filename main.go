@@ -17,7 +17,7 @@ func main() {
 	ao := &options.App{
 		Title:         "ChatInput",
 		Width:         600,
-		Height:        500,
+		Height:        560,
 		DisableResize: true,
 		AssetServer: &assetserver.Options{
 			Assets: assets,

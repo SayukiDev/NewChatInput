@@ -3,14 +3,20 @@ package service
 import (
 	"ChatInput/options"
 	"ChatInput/pkg/voicevox"
+	"fmt"
 )
 
-func (s *Service) initVoiceVox(opt *options.Options) {
+func (s *Service) initVoiceVox(opt *options.Options) error {
 	s.VV = voicevox.New(opt.VoiceVox.Path, opt.VoiceVox.LineLimit, opt.VoiceVox.Args...)
 	s.VV.SetSpeaker(opt.VoiceVox.Selected)
 	opt.AddHook(func(o *options.Options) error {
 		s.VV.SetSpeaker(opt.VoiceVox.Selected)
 		return nil
 	})
-	return
+	if opt.VoiceVox.AutoStart {
+		if err := s.VV.Start(); err != nil {
+			return fmt.Errorf("failed to start VoiceVox: %w", err)
+		}
+	}
+	return nil
 }
