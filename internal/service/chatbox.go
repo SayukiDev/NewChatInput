@@ -10,6 +10,9 @@ func (s *Service) SendChatboxMsg(text string, tts bool, disableSfx bool) error {
 		return err
 	}
 	if s.Option.TTS && text != "" && tts {
+		if !s.VV.Complete() {
+			return nil // voicevox not ready
+		}
 		b, err := s.VV.TTS(text)
 		if err != nil {
 			return err

@@ -46,14 +46,6 @@ func (a *App) Startup(ctx context.Context) {
 		return
 	}
 	srv := service.New(opt)
-	defer func() {
-		logrus.Println("Shutdown...")
-		err = srv.Close()
-		if err != nil {
-			panic(err)
-		}
-		logrus.Println("Done.")
-	}()
 	err = srv.Start(ctx)
 	if err != nil {
 		return
@@ -61,6 +53,15 @@ func (a *App) Startup(ctx context.Context) {
 	a.ctx = ctx
 	a.srv = srv
 	a.pages.Startup(srv)
+}
+
+func (a *App) Shutdown(_ context.Context) {
+	if a.srv != nil {
+		if err := a.srv.Close(); err != nil {
+			logrus.WithError(err).Error("Failed to close service")
+		}
+	}
+	logrus.Println("App shutdown successfully")
 }
 
 func (a *App) Binds() []interface{} {

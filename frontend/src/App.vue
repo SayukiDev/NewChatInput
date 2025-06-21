@@ -6,9 +6,7 @@ const messagesStore = useMessagesStore()
 
 <template>
   <v-app>
-    <v-main>
       <router-view />
-    </v-main>
     
     <!-- Global Messages Bar -->
     <v-snackbar
