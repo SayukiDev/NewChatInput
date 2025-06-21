@@ -1,7 +1,7 @@
 package main
 
 import (
-	app2 "ChatInput/app"
+	app2 "ChatInput/internal/app"
 	"embed"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -24,6 +24,7 @@ func main() {
 		},
 		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
 		OnStartup:        app.Startup,
+		OnShutdown:       app.Shutdown,
 	}
 	ao.Bind = app.Binds()
 	// Create application with options

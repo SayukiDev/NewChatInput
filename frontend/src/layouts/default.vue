@@ -1,26 +1,24 @@
 <template>
-  <div class="d-flex flex-column min-height-layout">
     <v-container fluid class="pa-4">
-          <!-- Tabs Card with same width as content -->
-          <v-card v-if="!appStore.isFullInputMode" class="tabs-card">
-            <v-tabs v-model="currentTab" grow class="flex-shrink-0">
-              <v-tab value="input" @click="navigateToTab('input')">Input</v-tab>
-              <v-tab value="options" @click="navigateToTab('options')">Options</v-tab>
-            </v-tabs>
-          </v-card>
+      <!-- Tabs Card with same width as content -->
+      <v-card v-if="!appStore.isFullInputMode" class="tabs-card">
+        <v-tabs v-model="currentTab" grow>
+          <v-tab value="input" @click="navigateToTab('input')">Input</v-tab>
+          <v-tab value="options" @click="navigateToTab('options')">Options</v-tab>
+        </v-tabs>
+      </v-card>
 
-          <!-- Content Area -->
-          <div class="content-area">
-            <router-view />
-          </div>
+      <!-- Content Area -->
+      <v-container class="pb-0 px-0" width="100%">
+        <router-view/>
+      </v-container>
     </v-container>
-  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch} from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useAppStore } from '@/stores/app'
+import {ref, watch} from 'vue'
+import {useRoute, useRouter} from 'vue-router'
+import {useAppStore} from '@/stores/app'
 
 const route = useRoute()
 const router = useRouter()
@@ -37,14 +35,14 @@ const navigateToTab = (tab: string) => {
 
 // Sync route with tab
 watch(
-  () => route.path,
-  (newPath) => {
-    if (newPath === '/') {
-      currentTab.value = 'input'
-    } else if (newPath === '/options') {
-      currentTab.value = 'options'
-    }
-  },
-  { immediate: true }
+    () => route.path,
+    (newPath) => {
+      if (newPath === '/') {
+        currentTab.value = 'input'
+      } else if (newPath === '/options') {
+        currentTab.value = 'options'
+      }
+    },
+    {immediate: true}
 )
 </script>

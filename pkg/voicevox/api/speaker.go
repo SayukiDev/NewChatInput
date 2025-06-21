@@ -2,20 +2,20 @@ package api
 
 import "encoding/json"
 
-type Speakers []struct {
+type Speaker struct {
 	Name        string   `json:"name"`
 	SpeakerUUID string   `json:"speaker_uuid"`
 	Styles      []Styles `json:"styles"`
 	Version     string   `json:"version"`
 }
 
-func (l *Api) ListSpeaker() (Speakers, error) {
+func (l *Api) ListSpeaker() ([]Speaker, error) {
 	r, err := l.c.R().Get("/speakers")
 	err = errorCheck(r, err, true)
 	if err != nil {
 		return nil, err
 	}
-	var speakers Speakers
+	var speakers []Speaker
 	if err = json.Unmarshal(r.Body(), &speakers); err != nil {
 		return nil, err
 	}

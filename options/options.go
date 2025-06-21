@@ -8,10 +8,13 @@ import (
 
 type Options struct {
 	// internal
-	path  string
-	lock  sync.Mutex
-	hooks []HookFunc
+	path    string
+	lock    sync.Mutex
+	hooks   []HookFunc
+	*Config `json:",inline"`
+}
 
+type Config struct {
 	SendPort        int      `json:"send_port"`
 	RecvPort        int      `json:"recv_port"`
 	EnableTypingMsg bool     `json:"enable_typing_msg"`
@@ -33,17 +36,19 @@ type VoiceVox struct {
 
 func NewOptions(p string) *Options {
 	return &Options{
-		path:         p,
-		SendPort:     9000,
-		RecvPort:     9001,
-		RealtimeSend: false,
-		TTS:          false,
-		VoiceControl: false,
-		VoiceVox: VoiceVox{
-			AutoStart: false,
-			Path:      "./windows-nvidia/run.exe",
-			LineLimit: 50,
-			Selected:  -1,
+		path: p,
+		Config: &Config{
+			SendPort:     9000,
+			RecvPort:     9001,
+			RealtimeSend: false,
+			TTS:          false,
+			VoiceControl: false,
+			VoiceVox: VoiceVox{
+				AutoStart: false,
+				Path:      "./windows-nvidia/run.exe",
+				LineLimit: 50,
+				Selected:  -1,
+			},
 		},
 	}
 }
@@ -62,7 +67,7 @@ func (o *Options) Load() error {
 	}
 	defer file.Close()
 	decoder := json.NewDecoder(file)
-	return decoder.Decode(o)
+	return decoder.Decode(o.Config)
 }
 
 func (o *Options) Save() error {
@@ -74,7 +79,7 @@ func (o *Options) Save() error {
 	}
 	defer file.Close()
 	encoder := json.NewEncoder(file)
-	return encoder.Encode(o)
+	return encoder.Encode(o.Config)
 }
 
 func (o *Options) AddHook(f HookFunc) {

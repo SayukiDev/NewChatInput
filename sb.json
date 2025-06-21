@@ -1,0 +1,152 @@
+{
+  "dns": {
+    "servers": [
+      {
+        "type": "udp",
+        "server": "1.1.1.1",
+        "server_port": 53
+      }
+    ]
+  },
+  "inbounds": [
+    {
+      "type": "shadowsocks",
+      "listen": "::",
+      "listen_port": 44504,
+      "method": "2022-blake3-aes-128-gcm",
+      "password": "ejY7HlCwzbIiVSkPk9bQCA==",
+      "multiplex": {
+        "enabled": true,
+        "brutal": {
+          "up_mbps": 300,
+          "down_mbps": 300
+        }
+      }
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "ssh-dir",
+      "listen": "::",
+      "listen_port": 44503,
+      "method": "2022-blake3-aes-128-gcm",
+      "password": "ejY7HlCwzbIiVSkPk9bQCA==",
+      "multiplex": {
+        "enabled": true,
+        "brutal": {
+          "up_mbps": 300,
+          "down_mbps": 300
+        }
+      }
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "ssh-cf",
+      "listen": "::",
+      "listen_port": 44502,
+      "method": "2022-blake3-aes-128-gcm",
+      "password": "ejY7HlCwzbIiVSkPk9bQCA==",
+      "multiplex": {
+        "enabled": true,
+        "brutal": {
+          "up_mbps": 300,
+          "down_mbps": 300
+        }
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "vmess-ws",
+      "listen": "::",
+      "listen_port": 1880,
+      "users": [
+        {
+          "name": "sekai",
+          "uuid": "7d445324-7028-495f-8d52-947025facfae"
+        }
+      ],
+      "transport": {
+        "type": "ws",
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "vmess-ws-dir",
+      "listen": "::",
+      "listen_port": 11777,
+      "users": [
+        {
+          "name": "sekai",
+          "uuid": "7d445324-7028-495f-8d52-947025facfae"
+        }
+      ],
+      "transport": {
+        "type": "ws",
+        "path": "/speedtest-ws",
+        "max_early_data": 2048,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "tag": "vless-tls-cf",
+      "type": "vless",
+      "listen": "::",
+      "listen_port": 4431,
+      "users": [
+        {
+          "uuid": "7d445324-7028-495f-8d52-947025facfae",
+          "flow": "xtls-rprx-vision"
+        }
+      ],
+      "tls": {
+        "enabled": true,
+        "certificate_path": "/etc/sing-box/cert.crt",
+        "key_path": "/etc/sing-box/key.key",
+        "min_version": "1.3",
+        "max_version": "1.3"
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "shadowsocks",
+      "bind_interface": "ens5",
+      "domain_strategy": "ipv4_only",
+      "server": "240d:1a:116e:c800:88b6:eeff:fe08:baa5",
+      "server_port": 12395,
+      "method": "none",
+      "password": "gswjs7NOSU6oJZ8"
+    },
+    {
+      "type": "direct",
+      "tag": "dir",
+      "bind_interface": "ens5",
+      "domain_strategy": "ipv4_only"
+    },
+    {
+      "tag": "wgcf",
+      "type": "direct",
+      "bind_interface":"wgcf",
+      "domain_strategy":"ipv4_only"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "inbound": [
+          "vmess-ws-dir",
+          "ssh-dir"
+        ],
+        "outbound": "dir"
+      },
+      {
+        "inbound": [
+          "vless-tls-cf",
+          "ssh-cf"
+        ],
+        "outbound": "wgcf"
+      }
+    ]
+  }
+}
