@@ -6,19 +6,19 @@
     >
       <v-card-title class="pb-2">
         <v-icon class="mr-2">mdi-keyboard</v-icon>
-        Typing
+        {{ t('input.typing') }}
       </v-card-title>
       <v-card-text class="pb-0 mb-0">
         <v-textarea
             ref="inputRef"
             v-model="inputText"
-            label="Enter your message"
+            :label="t('input.enterMessage')"
             variant="outlined"
             clearable
             :rows="appStore.isFullInputMode ? 10 : 5"
             no-resize
             density="comfortable"
-            placeholder="Type your message here..."
+            :placeholder="t('input.typeMessage')"
             @keydown="handleInputKeydown"
         />
       </v-card-text>
@@ -27,21 +27,21 @@
         ref="inputFullRef"
         v-model="inputText"
         v-if="appStore.isFullInputMode"
-        label="Enter your message"
+        :label="t('input.enterMessage')"
         variant="outlined"
         clearable
         :rows="appStore.isFullInputMode ? 10 : 5"
         no-resize
         class="ma-0 pa-0"
         density="comfortable"
-        placeholder="Type your message here..."
+        :placeholder="t('input.typeMessage')"
         @keydown="handleFullPageKeyDown"
     />
     <!-- Actions Card -->
     <v-card v-if="!appStore.isFullInputMode">
       <v-card-title class="pb-2">
         <v-icon class="mr-2">mdi-gesture-tap-button</v-icon>
-        Actions
+        {{ t('input.actions') }}
       </v-card-title>
       <v-card-text>
         <v-row>
@@ -55,7 +55,7 @@
                 :disabled="!InputTextNotNull"
             >
               <v-icon left>mdi-send</v-icon>
-              Send
+              {{ t('general.send') }}
             </v-btn>
           </v-col>
 
@@ -68,7 +68,7 @@
                 @click="handleClear"
             >
               <v-icon left>mdi-eraser</v-icon>
-              Clear
+              {{ t('general.clear') }}
             </v-btn>
           </v-col>
         </v-row>
@@ -84,7 +84,7 @@
                 :disabled="appStore.isFullInputMode"
             >
               <v-icon class="mr-2">mdi-fullscreen</v-icon>
-              Full Input Mode
+              {{ t('input.fullInputMode') }}
             </v-btn>
           </v-col>
         </v-row>
@@ -93,12 +93,14 @@
 </template>
 
 <script setup lang="ts">
-import {ref, computed, useTemplateRef} from 'vue'
+import {ref, computed} from 'vue'
 import {useMessagesStore} from '@/stores/messages';
 import {useAppStore} from '@/stores/app';
 import {SendMessage, SetFullInputMode} from "../../wailsjs/go/pages/Input";
 import {WindowGetSize, WindowSetSize} from "../../wailsjs/runtime";
+import {useI18n} from "vue-i18n";
 
+const { t } = useI18n()
 const messagesStore = useMessagesStore()
 const appStore = useAppStore()
 const inputText = ref('')
@@ -111,15 +113,15 @@ const InputTextNotNull = computed(function () {
 
 const handleSend = () => {
   if (!inputText?.value.trim()) {
-    messagesStore.addWarning('Please enter a message')
+    messagesStore.addWarning(t('messages.pleaseEnterMessage'))
     return
   }
 
   SendMessage(inputText.value).then(() => {
   }).catch((error) => {
-    messagesStore.addError(`Failed to send message: ${error.message}`)
+    messagesStore.addError(t('messages.failedToSend', { error: error.message }))
   }).finally(() => {
-    messagesStore.addSuccess('Message sent successfully')
+    messagesStore.addSuccess(t('messages.messageSentSuccess'))
   })
   inputText.value = ''
 }
@@ -127,12 +129,12 @@ const handleSend = () => {
 const handleClear = () => {
   if (inputText?.value.trim()) {
     inputText.value = ''
-    messagesStore.addSuccess('Input cleared')
+    messagesStore.addSuccess(t('messages.inputCleared'))
   } else {
     SendMessage('').then(() => {
-      messagesStore.addInfo('ChatBox cleared')
+      messagesStore.addInfo(t('messages.chatboxCleared'))
     }).catch((error) => {
-      messagesStore.addError(`Failed to clear input: ${error.message}`)
+      messagesStore.addError(t('messages.failedToClear', { error: error.message }))
     })
   }
 }
@@ -169,7 +171,7 @@ const enterFullInputMode = () => {
   appStore.setInputMode(true)
   WindowGetSize().then((size) => {
     WindowSetSize(size.w, size.h - 180)
-    messagesStore.addInfo('Entered full input mode - press ESC to exit');
+    messagesStore.addInfo(t('input.fullInputModeEntered'));
     (inputFullRef.value as HTMLElement)?.focus()
   })
 }

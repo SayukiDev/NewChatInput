@@ -1,0 +1,52 @@
+{
+  "general": {
+    "save": "Save",
+    "start": "Start",
+    "stop": "Stop",
+    "send": "Send",
+    "clear": "Clear"
+  },
+  "tabs": {
+    "input": "Input",
+    "options": "Options"
+  },
+  "input": {
+    "typing": "Typing",
+    "actions": "Actions",
+    "enterMessage": "Enter your message",
+    "typeMessage": "Type your message here...",
+    "fullInputMode": "Full Input Mode",
+    "fullInputModeEntered": "Entered full input mode - press ESC to exit"
+  },
+  "messages": {
+    "pleaseEnterMessage": "Please enter a message",
+    "messageSentSuccess": "Message sent successfully",
+    "inputCleared": "Input cleared",
+    "chatboxCleared": "ChatBox cleared",
+    "failedToSend": "Failed to send message: {error}",
+    "failedToClear": "Failed to clear input: {error}",
+    "saved": "Saved",
+    "started": "Started",
+    "stopped": "Stopped",
+    "failedToStop": "Failed to stop: {error}",
+    "failedToSave": "Failed to save: {error}"
+  },
+  "options": {
+    "osc": "OSC",
+    "typing": "Typing",
+    "voicevox": "VoiceVox",
+    "sendPort": "Send Port",
+    "recvPort": "Receive Port",
+    "enableTypingMsg": "Enable Typing Message",
+    "realtimeSend": "Realtime Send",
+    "enableTTS": "Enable TTS",
+    "autoStart": "Auto Start",
+    "path": "Path",
+    "pathPlaceholder": "Enter VoiceVox executable path",
+    "args": "Arguments",
+    "speaker": "Speaker",
+    "speakerType": "Speaker Type",
+    "voicevoxRunning": "VoiceVox is running",
+    "voicevoxNotRunning": "VoiceVox is not running"
+  }
+}

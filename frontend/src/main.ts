@@ -7,6 +7,9 @@ import App from './App.vue'
 // Vuetify (import before global styles)
 import vuetify from './plugins/vuetify'
 
+// i18n
+import i18n from './plugins/i18n'
+
 // Global styles (import after Vuetify)
 import './style.css'
 
@@ -26,6 +29,7 @@ const app = createApp(App)
 
 app.use(pinia)
 app.use(vuetify)
+app.use(i18n)
 app.use(router)
 
 app.mount('#app')

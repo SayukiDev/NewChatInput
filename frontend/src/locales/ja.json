@@ -1,0 +1,52 @@
+{
+  "general": {
+    "save": "保存",
+    "start": "起動",
+    "stop": "停止",
+    "send": "送信",
+    "clear": "クリア"
+  },
+  "tabs": {
+    "input": "入力",
+    "options": "オプション"
+  },
+  "input": {
+    "typing": "タイピング",
+    "actions": "アクション",
+    "enterMessage": "メッセージを入力",
+    "typeMessage": "ここにメッセージを入力してください...",
+    "fullInputMode": "フル入力モード",
+    "fullInputModeEntered": "フル入力モードに入りました - ESCキーで終了"
+  },
+  "messages": {
+    "pleaseEnterMessage": "メッセージを入力してください",
+    "messageSentSuccess": "メッセージを送信しました",
+    "inputCleared": "入力をクリアしました",
+    "chatboxCleared": "チャットボックスをクリアしました",
+    "failedToSend": "メッセージの送信に失敗しました: {error}",
+    "failedToClear": "入力のクリアに失敗しました: {error}",
+    "saved": "保存しました",
+    "started": "起動しました",
+    "stopped": "停止しました",
+    "failedToStop": "停止に失敗しました: {error}",
+    "failedToSave": "保存に失敗しました: {error}"
+  },
+  "options": {
+    "osc": "OSC",
+    "typing": "タイピング",
+    "voicevox": "VoiceVox",
+    "sendPort": "送信ポート",
+    "recvPort": "受信ポート",
+    "enableTypingMsg": "タイピングメッセージを有効にする",
+    "realtimeSend": "リアルタイム送信",
+    "enableTTS": "TTSを有効にする",
+    "autoStart": "自動起動",
+    "path": "パス",
+    "pathPlaceholder": "VoiceVoxの実行ファイルパスを入力",
+    "args": "引数",
+    "speaker": "話者",
+    "speakerType": "話者タイプ",
+    "voicevoxRunning": "VoiceVoxは実行中です",
+    "voicevoxNotRunning": "VoiceVoxは実行されていません"
+  }
+}

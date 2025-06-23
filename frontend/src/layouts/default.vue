@@ -2,10 +2,16 @@
     <v-container fluid class="pa-4">
       <!-- Tabs Card with same width as content -->
       <v-card v-if="!appStore.isFullInputMode" class="tabs-card">
-        <v-tabs v-model="currentTab" grow>
-          <v-tab value="input" @click="navigateToTab('input')">Input</v-tab>
-          <v-tab value="options" @click="navigateToTab('options')">Options</v-tab>
-        </v-tabs>
+        <v-row align="center" no-gutters>
+          <v-col>
+            <v-tabs v-model="currentTab" grow>
+              <v-tab value="input" @click="navigateToTab('input')">{{ t('tabs.input') }}</v-tab>
+              <v-tab value="options" @click="navigateToTab('options')">{{ t('tabs.options') }}</v-tab>
+            </v-tabs>
+          </v-col>
+          <v-col cols="auto" class="px-2">
+          </v-col>
+        </v-row>
       </v-card>
 
       <!-- Content Area -->
@@ -20,6 +26,7 @@ import {ref, watch} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import {useAppStore} from '@/stores/app'
 
+const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const appStore = useAppStore()

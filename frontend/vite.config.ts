@@ -24,7 +24,8 @@ export default defineConfig({
       imports: [
         'vue',
         'vue-router',
-        'pinia'
+        'pinia',
+        'vue-i18n'
       ],
       dts: 'src/auto-imports.d.ts',
       vueTemplate: true,

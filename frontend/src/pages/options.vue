@@ -3,13 +3,13 @@
       <v-card class="mb-4">
         <v-card-title>
           <v-icon class="mr-2">mdi-console-network</v-icon>
-          OSC
+          {{ t('options.osc') }}
         </v-card-title>
         <v-card-text>
           <v-row>
             <v-col cols="6">
               <v-number-input
-                  label="SendPort"
+                  :label="t('options.sendPort')"
                   v-model="opt.send_port"
                   variant="outlined"
                   max.number="65535"
@@ -20,7 +20,7 @@
             </v-col>
             <v-col cols="6">
               <v-number-input
-                  label="SendPort"
+                  :label="t('options.recvPort')"
                   v-model="opt.recv_port"
                   variant="outlined"
                   max.number="65535"
@@ -35,23 +35,23 @@
       <v-card>
         <v-card-title>
           <v-icon class="mr-2">mdi-keyboard</v-icon>
-          Typing
+          {{ t('options.typing') }}
         </v-card-title>
         <v-card-text>
           <v-row dense>
             <v-col cols="12">
               <v-switch
-                  label="EnableTypingMsg"
+                  :label="t('options.enableTypingMsg')"
                   density="compact"
                   v-model="opt.enable_typing_msg"
               ></v-switch>
               <v-switch
-                  label="RealtimeSend"
+                  :label="t('options.realtimeSend')"
                   density="compact"
                   v-model="opt.realtime"
               ></v-switch>
               <v-switch
-                  label="EnableTTS"
+                  :label="t('options.enableTTS')"
                   density="compact"
                   v-model="opt.tts"
               ></v-switch>
@@ -62,23 +62,23 @@
       <v-card class="mt-4">
         <v-card-title>
           <v-icon class="mr-2">mdi-microphone</v-icon>
-          VoiceVox
+          {{ t('options.voicevox') }}
         </v-card-title>
         <v-card-text>
           <v-row>
             <v-col cols="12">
               <v-switch
-                  label="AutoStart"
+                  :label="t('options.autoStart')"
                   density="compact"
                   v-model="opt.voicevox.auto_start"
               ></v-switch>
             </v-col>
             <v-col cols="12">
               <v-text-field
-                  label="Path"
+                  :label="t('options.path')"
                   v-model="opt.voicevox.path"
                   variant="outlined"
-                  placeholder="VoiceVoxの実行ファイルパスを入力"
+                  :placeholder="t('options.pathPlaceholder')"
                   prepend-inner-icon="mdi-folder"
               ></v-text-field>
             </v-col>
@@ -95,7 +95,7 @@
             -->
             <v-col cols="12">
               <v-combobox
-                  label="Args"
+                  :label="t('options.args')"
                   v-model="opt.voicevox.args"
                   variant="outlined"
                   multiple
@@ -109,7 +109,7 @@
             <template v-if="running&&complete">
               <v-col cols="6">
                 <v-select
-                    label="Spacker"
+                    :label="t('options.speaker')"
                     v-model="selectedSpacker"
                     variant="outlined"
                     :items="spackers"
@@ -120,7 +120,7 @@
               </v-col>
               <v-col cols="6">
                 <v-select
-                    label="SpackerType"
+                    :label="t('options.speakerType')"
                     v-model="selectedType"
                     variant="outlined"
                     :items="spackerTypes"
@@ -131,10 +131,10 @@
               </v-col>
             </template>
             <v-col cols="6">
-              <v-btn width="100%" color="info" :disabled="running"  @click="handleVVStart" text="Start"></v-btn>
+              <v-btn width="100%" color="info" :disabled="running"  @click="handleVVStart" :text="t('general.start')"></v-btn>
             </v-col>
             <v-col cols="6">
-              <v-btn width="100%" color="error" :disabled="!running" @click="handleVVStop" text="Stop"></v-btn>
+              <v-btn width="100%" color="error" :disabled="!running" @click="handleVVStop" :text="t('general.stop')"></v-btn>
             </v-col>
           </v-row>
         </v-card-text>
@@ -143,7 +143,7 @@
     <v-btn
         color="info"
         @click="handleSave"
-        text="Save"
+        :text="t('general.save')"
         width="100%"
         class="mt-4"
         :disabled="!loaded"
@@ -156,6 +156,7 @@ import {api, options} from "../../wailsjs/go/models";
 import {GetSpacker, IsVVComplete, IsVVRunning, Load, Save, StartVV, StopVV} from "../../wailsjs/go/pages/Options";
 import {useMessagesStore} from "@/stores/messages";
 
+const { t } = useI18n()
 const msg = useMessagesStore()
 let loaded = ref(false)
 let running = ref(false);
@@ -166,7 +167,7 @@ type alertType = 'success' | 'info' | 'warning' | 'error'
 
 let vvAlert=ref({
   type: "error" as alertType,
-  title: "VoiceVox is not running"
+  title: t('options.voicevoxNotRunning')
 })
 
 let opt = ref<options.Config>(new options.Config({
@@ -231,12 +232,12 @@ function runningUpdate() {
       if (isRunning) {
         vvAlert.value = {
           type: "success" as alertType,
-          title: "VoiceVox is running"
+          title: t('options.voicevoxRunning')
         }
       }else{
         vvAlert.value = {
           type: "error" as alertType,
-          title: "VoiceVox is not running"
+          title: t('options.voicevoxNotRunning')
         }
       }
       running.value = isRunning
@@ -273,7 +274,7 @@ function handleVVStart(){
       runningTask=setInterval(runningUpdate, 100000)
       completeTask=setInterval(completeUpdate, 10000)
     })
-    msg.addSuccess("Started")
+    msg.addSuccess(t('messages.started'))
   })
 }
 
@@ -286,9 +287,9 @@ function handleVVStop(){
     complete.value = false
     spackers.value = []
     spackerTypes.value = []
-    msg.addSuccess("Stopped")
+    msg.addSuccess(t('messages.stopped'))
   }).catch((error) => {
-    msg.addError(`Failed to stop: ${error.message}`)
+    msg.addError(t('messages.failedToStop', { error: error.message }))
   })
 }
 
@@ -348,9 +349,9 @@ function handleSave() {
   // Update the selected speaker type ID in the config before saving
   opt.value.voicevox.selected = selectedType.value.id
   Save(opt.value).then(() => {
-    msg.addSuccess("Saved")
+    msg.addSuccess(t('messages.saved'))
   }).catch((error) => {
-    msg.addError(`Failed to save: ${error.message}`)
+    msg.addError(t('messages.failedToSave', { error: error.message }))
   })
 }
 
