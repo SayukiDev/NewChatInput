@@ -10,10 +10,12 @@ VRCHATのChatBox用入力補助プログラムです、TTS（読み上げ）機�
 - TTS（読み上げ）
     - Depsの準備
         1. [VB-Cable](https://vb-audio.com/Cable/)をインストールする。
+        2. [VoiceVox Engine](https://github.com/VOICEVOX/voicevox_engine/releases)をダウンロードしてChatInput.exeと同じディレクトリに解凍する。
+        3. ChatInputのオプションタブのパスはVoiceVox Engineの位置に一致してるかを確認して起動ボタンを押す。
     - 使用
         1. ChatInputのオプションタブのTTS項目をOnにして、適当になにか入力して送信してWindowsの音量ミキサーで`ChatInput.exe`の出力デバイスを`CABLE Input`に設定する。
         2. VRCHATでマイクデバイスを`CABLE Output`に設定する。
-        3. ほかは基本利用とおなじです
+        3. ほかは基本利用とおなじです。
 ## 問題
 
 ## TODO
