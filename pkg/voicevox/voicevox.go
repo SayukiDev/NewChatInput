@@ -27,6 +27,24 @@ type VoiceVox struct {
 }
 
 func New(path string, lineLimit int, options ...string) *VoiceVox {
+	newO := make([]string, 0, len(options))
+	skipNext := false
+	for _, v := range options {
+		if skipNext {
+			skipNext = false
+			continue
+		}
+		if strings.HasPrefix(strings.ToLower(v), "--host") {
+			skipNext = true
+			continue
+		}
+		if strings.HasPrefix(strings.ToLower(v), "--port") {
+			skipNext = true
+			continue
+		}
+		newO = append(newO, v)
+	}
+	options = newO
 	args := []string{
 		path,
 		"--host", host,
