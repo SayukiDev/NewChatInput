@@ -52,23 +52,29 @@ func New(path string, lineLimit int, c *options.VoiceVox) *VoiceVox {
 	}
 	args := []string{
 		path,
-		"--host", c.Host,
+		"--host", "127.0.0.1",
 		"--port", c.Port,
 	}
 	args = append(args, newO...)
 	l := make([]string, 0, lineLimit)
 	l = append(l, strings.Join(args, ""))
 	return &VoiceVox{
-		Api: api.New("http://" + c.Host + ":" + c.Port + "/"),
+		Api: api.New("http://127.0.0.1" + ":" + c.Port + "/"),
 		cmd: args,
 	}
 }
 
 func (v *VoiceVox) Running() bool {
+	if v.isRemote {
+		return v.Api != nil
+	}
 	return v.running.Load()
 }
 
 func (v *VoiceVox) Complete() bool {
+	if v.isRemote {
+		return v.Api != nil
+	}
 	return v.complete.Load()
 }
 

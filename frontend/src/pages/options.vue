@@ -115,30 +115,6 @@
               <v-col cols="12">
                 <v-alert class="py-3" :type="vvAlert.type" :title="vvAlert.title"></v-alert>
               </v-col>
-              <template v-if="running&&complete">
-                <v-col cols="6">
-                  <v-select
-                      :label="t('options.speaker')"
-                      v-model="selectedSpacker"
-                      variant="outlined"
-                      :items="spackers"
-                      item-title="name"
-                      item-value="uuid"
-                      return-object
-                  ></v-select>
-                </v-col>
-                <v-col cols="6">
-                  <v-select
-                      :label="t('options.speakerType')"
-                      v-model="selectedType"
-                      variant="outlined"
-                      :items="spackerTypes"
-                      item-title="name"
-                      item-value="id"
-                      return-object
-                  ></v-select>
-                </v-col>
-            </template>
             </template>
             <template v-else >
               <v-col cols="12">
@@ -152,26 +128,52 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
-              <v-text-field
-                  :label="t('options.port')"
-                  v-model="opt.voicevox.port"
-                  variant="outlined"
-                  :placeholder="t('options.portPlaceholder')"
-                  prepend-inner-icon="mdi-numeric"
-                  :rules="[
+                <v-text-field
+                    :label="t('options.port')"
+                    v-model="opt.voicevox.port"
+                    variant="outlined"
+                    :placeholder="t('options.portPlaceholder')"
+                    prepend-inner-icon="mdi-numeric"
+                    :rules="[
                     (v: string) => !!v || t('options.validationRequired'),
                     (v: string) => (v && parseInt(v) >= 1 && parseInt(v) <= 65535) || t('options.validationPortRange')
                   ]"
-                  type="number"
-              ></v-text-field>
+                    type="number"
+                ></v-text-field>
               </v-col>
             </template>
-            <v-col cols="6">
-              <v-btn width="100%" color="info" :disabled="running"  @click="handleVVStart" :text="t('general.start')"></v-btn>
-            </v-col>
-            <v-col cols="6">
-              <v-btn width="100%" color="error" :disabled="!running" @click="handleVVStop" :text="t('general.stop')"></v-btn>
-            </v-col>
+            <template v-if="(running&&complete)||(opt.voicevox.is_remote&&loaded)">
+              <v-col cols="6">
+                <v-select
+                    :label="t('options.speaker')"
+                    v-model="selectedSpacker"
+                    variant="outlined"
+                    :items="spackers"
+                    item-title="name"
+                    item-value="uuid"
+                    return-object
+                ></v-select>
+              </v-col>
+              <v-col cols="6">
+                <v-select
+                    :label="t('options.speakerType')"
+                    v-model="selectedType"
+                    variant="outlined"
+                    :items="spackerTypes"
+                    item-title="name"
+                    item-value="id"
+                    return-object
+                ></v-select>
+              </v-col>
+            </template>
+            <template  v-if="!opt.voicevox.is_remote">
+              <v-col cols="6">
+                <v-btn width="100%" color="info" :disabled="running"  @click="handleVVStart" :text="t('general.start')"></v-btn>
+              </v-col>
+              <v-col cols="6">
+                <v-btn width="100%" color="error" :disabled="!running" @click="handleVVStop" :text="t('general.stop')"></v-btn>
+              </v-col>
+            </template>
           </v-row>
         </v-card-text>
       </v-card>
@@ -197,8 +199,8 @@ const msg = useMessagesStore()
 let loaded = ref(false)
 let running = ref(false);
 let complete = ref(false);
-let runningTask: NodeJS.Timeout
-let completeTask: NodeJS.Timeout
+let runningTask: NodeJS.Timeout=null as any
+let completeTask: NodeJS.Timeout=null as any
 type alertType = 'success' | 'info' | 'warning' | 'error'
 
 let vvAlert=ref({
@@ -250,15 +252,19 @@ onMounted(() => {
   Load().then((options) => {
     opt.value = options
     loaded.value = true
-  })
-  runningUpdate().then(()=>{
-    runningTask=setInterval(runningUpdate, 100000)
-    completeUpdate().then(()=>{
-      if (complete.value) {
-        return
-      }
-      completeTask=setInterval(completeUpdate, 10000)
-    })
+    if (opt.value.voicevox.is_remote ){
+      spackerUpdate()
+    }else{
+        runningUpdate().then(()=>{
+          runningTask=setInterval(runningUpdate, 100000)
+          completeUpdate().then(()=>{
+            if (complete.value) {
+              return
+            }
+            completeTask=setInterval(completeUpdate, 10000)
+          })
+        })
+    }
   })
 })
 
@@ -364,6 +370,8 @@ function spackerUpdate() {
         selectedType.value = spackerTypes.value[0]
       }
     }
+  }).catch((error) => {
+    msg.addError('Failed to get speakers: ' + error.message)
   })
 }
 
@@ -386,6 +394,31 @@ function handleSave() {
   opt.value.voicevox.selected = selectedType.value.id
   Save(opt.value).then(() => {
     msg.addSuccess(t('messages.saved'))
+    if (opt.value.voicevox.is_remote){
+      if (runningTask==null) {
+        return
+      }
+      running.value=false
+      complete.value=false
+      clearInterval(runningTask)
+      clearInterval(completeTask)
+      spackerUpdate()
+    }else{
+      if (runningTask!=null) {
+        return
+      }
+      running.value=false
+      complete.value=false
+      runningUpdate().then(()=>{
+        runningTask=setInterval(runningUpdate, 100000)
+        completeUpdate().then(()=>{
+          if (complete.value) {
+            return
+          }
+          completeTask=setInterval(completeUpdate, 10000)
+        })
+      })
+    }
   }).catch((error) => {
     msg.addError(t('messages.failedToSave', { error: error.message }))
   })
