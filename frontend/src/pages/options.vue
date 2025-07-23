@@ -66,6 +66,15 @@
         </v-card-title>
         <v-card-text>
           <v-row>
+
+            <v-col cols="12">
+              <v-switch
+                  :label="t('options.remoteMode')"
+                  density="compact"
+                  v-model="opt.voicevox.is_remote"
+              ></v-switch>
+            </v-col>
+            <template v-if="!opt.voicevox.is_remote">
             <v-col cols="12">
               <v-switch
                   :label="t('options.autoStart')"
@@ -93,41 +102,68 @@
               ></v-number-input>
             </v-col>
             -->
-            <v-col cols="12">
-              <v-combobox
-                  :label="t('options.args')"
-                  v-model="opt.voicevox.args"
-                  variant="outlined"
-                  multiple
-                  chips
-              ></v-combobox>
-            </v-col>
-            <v-divider></v-divider>
-            <v-col cols="12">
-              <v-alert class="py-3" :type="vvAlert.type" :title="vvAlert.title"></v-alert>
-            </v-col>
-            <template v-if="running&&complete">
-              <v-col cols="6">
-                <v-select
-                    :label="t('options.speaker')"
-                    v-model="selectedSpacker"
+              <v-col cols="12">
+                <v-combobox
+                    :label="t('options.args')"
+                    v-model="opt.voicevox.args"
                     variant="outlined"
-                    :items="spackers"
-                    item-title="name"
-                    item-value="uuid"
-                    return-object
-                ></v-select>
+                    multiple
+                    chips
+                ></v-combobox>
               </v-col>
-              <v-col cols="6">
-                <v-select
-                    :label="t('options.speakerType')"
-                    v-model="selectedType"
+              <v-divider></v-divider>
+              <v-col cols="12">
+                <v-alert class="py-3" :type="vvAlert.type" :title="vvAlert.title"></v-alert>
+              </v-col>
+              <template v-if="running&&complete">
+                <v-col cols="6">
+                  <v-select
+                      :label="t('options.speaker')"
+                      v-model="selectedSpacker"
+                      variant="outlined"
+                      :items="spackers"
+                      item-title="name"
+                      item-value="uuid"
+                      return-object
+                  ></v-select>
+                </v-col>
+                <v-col cols="6">
+                  <v-select
+                      :label="t('options.speakerType')"
+                      v-model="selectedType"
+                      variant="outlined"
+                      :items="spackerTypes"
+                      item-title="name"
+                      item-value="id"
+                      return-object
+                  ></v-select>
+                </v-col>
+            </template>
+            </template>
+            <template v-else >
+              <v-col cols="12">
+                <v-text-field
+                    :label="t('options.host')"
+                    v-model="opt.voicevox.host"
                     variant="outlined"
-                    :items="spackerTypes"
-                    item-title="name"
-                    item-value="id"
-                    return-object
-                ></v-select>
+                    :placeholder="t('options.hostPlaceholder')"
+                    prepend-inner-icon="mdi-web"
+                    :rules="[(v: string) => !!v || t('options.validationRequired')]"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+              <v-text-field
+                  :label="t('options.port')"
+                  v-model="opt.voicevox.port"
+                  variant="outlined"
+                  :placeholder="t('options.portPlaceholder')"
+                  prepend-inner-icon="mdi-numeric"
+                  :rules="[
+                    (v: string) => !!v || t('options.validationRequired'),
+                    (v: string) => (v && parseInt(v) >= 1 && parseInt(v) <= 65535) || t('options.validationPortRange')
+                  ]"
+                  type="number"
+              ></v-text-field>
               </v-col>
             </template>
             <v-col cols="6">

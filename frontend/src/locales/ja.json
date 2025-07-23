@@ -47,6 +47,13 @@
     "speaker": "話者",
     "speakerType": "話者タイプ",
     "voicevoxRunning": "VoiceVoxは実行中です",
-    "voicevoxNotRunning": "VoiceVoxは実行されていません"
+    "voicevoxNotRunning": "VoiceVoxは実行されていません",
+    "host": "ホスト",
+    "port": "ポート",
+    "hostPlaceholder": "VoiceVoxのホストアドレスを入力",
+    "portPlaceholder": "VoiceVoxのポート番号を入力",
+    "validationRequired": "この項目は必須です",
+    "validationPortRange": "ポートは1から65535の間で指定してください",
+    "remoteMode": "リモートモード"
   }
 }

@@ -7,18 +7,18 @@ import (
 	"runtime"
 )
 
-func KillPort(port int) error {
+func KillPort(port string) error {
 	var command *exec.Cmd
 	if runtime.GOOS == "windows" {
-		cmd := fmt.Sprintf("Stop-Process -Id (Get-NetTCPConnection -LocalPort %d).OwningProcess -Force", port)
+		cmd := fmt.Sprintf("Stop-Process -Id (Get-NetTCPConnection -LocalPort %s).OwningProcess -Force", port)
 		command = exec.Command("powershell.exe", "-Command", cmd)
 	} else {
-		cmd := fmt.Sprintf("lsof -i tcp:%d | grep LISTEN | awk '{print $2}' | xargs kill -9", port)
+		cmd := fmt.Sprintf("lsof -i tcp:%s | grep LISTEN | awk '{print $2}' | xargs kill -9", port)
 		command = exec.Command("bash", "-c", cmd)
 	}
 	err := execCmd(command)
 	if err != nil {
-		return fmt.Errorf("failed to kill port %d: %w", port, err)
+		return fmt.Errorf("failed to kill port %s: %w", port, err)
 	}
 	return nil
 }
@@ -30,13 +30,13 @@ func execCmd(cmd *exec.Cmd) error {
 	return nil
 }
 
-func IsPortOpen(port int) bool {
+func IsPortOpen(port string) bool {
 	var command *exec.Cmd
 	if runtime.GOOS == "windows" {
-		cmdS := fmt.Sprintf("Get-NetTCPConnection -LocalPort %d", port)
+		cmdS := fmt.Sprintf("Get-NetTCPConnection -LocalPort %s", port)
 		command = exec.Command("powershell.exe", "-Command", cmdS, "-WindowStyle", "Hidden")
 	} else {
-		cmdS := fmt.Sprintf("lsof -i tcp:%d", port)
+		cmdS := fmt.Sprintf("lsof -i tcp:%s", port)
 		command = exec.Command("bash", "-c", cmdS)
 	}
 	command.SysProcAttr = cmd.HideWindowAttr()

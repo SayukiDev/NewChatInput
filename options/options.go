@@ -27,6 +27,9 @@ type Config struct {
 type HookFunc func(o *Options) error
 
 type VoiceVox struct {
+	IsRemote  bool     `json:"is_remote"`
+	Host      string   `json:"host"`
+	Port      string   `json:"port"`
 	AutoStart bool     `json:"auto_start"`
 	Path      string   `json:"path"`
 	LineLimit int      `json:"line_limit"`
@@ -44,6 +47,9 @@ func NewOptions(p string) *Options {
 			TTS:          false,
 			VoiceControl: false,
 			VoiceVox: VoiceVox{
+				IsRemote:  false,
+				Host:      "127.0.0.1",
+				Port:      "50021",
 				AutoStart: false,
 				Path:      "./windows-nvidia/run.exe",
 				LineLimit: 50,

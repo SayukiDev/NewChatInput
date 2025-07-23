@@ -47,6 +47,13 @@
     "speaker": "Speaker",
     "speakerType": "Speaker Type",
     "voicevoxRunning": "VoiceVox is running",
-    "voicevoxNotRunning": "VoiceVox is not running"
+    "voicevoxNotRunning": "VoiceVox is not running",
+    "host": "Host",
+    "port": "Port",
+    "hostPlaceholder": "Enter VoiceVox host address",
+    "portPlaceholder": "Enter VoiceVox port number",
+    "validationRequired": "This field is required",
+    "validationPortRange": "Port must be between 1 and 65535",
+    "remoteMode": "Remote Mode"
   }
 }

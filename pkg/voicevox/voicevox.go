@@ -1,21 +1,21 @@
 package voicevox
 
 import (
+	"ChatInput/options"
 	"ChatInput/pkg/cmd"
 	"ChatInput/pkg/portkill"
 	"ChatInput/pkg/voicevox/api"
 	"io"
 	"os/exec"
-	"strconv"
 	"strings"
 	"sync/atomic"
 )
 
-const host = "127.0.0.1"
-const port = 50015
-
 type VoiceVox struct {
 	*api.Api
+	isRemote  bool
+	host      string
+	port      string
 	complete  atomic.Bool
 	running   atomic.Bool
 	closed    chan struct{}
@@ -26,10 +26,16 @@ type VoiceVox struct {
 	process   *exec.Cmd
 }
 
-func New(path string, lineLimit int, options ...string) *VoiceVox {
-	newO := make([]string, 0, len(options))
+func New(path string, lineLimit int, c *options.VoiceVox) *VoiceVox {
+	if c.IsRemote {
+		return &VoiceVox{
+			Api:      api.New("http://" + c.Host + ":" + c.Port + "/"),
+			isRemote: true,
+		}
+	}
+	newO := make([]string, 0, len(c.Args))
 	skipNext := false
-	for _, v := range options {
+	for _, v := range c.Args {
 		if skipNext {
 			skipNext = false
 			continue
@@ -44,17 +50,16 @@ func New(path string, lineLimit int, options ...string) *VoiceVox {
 		}
 		newO = append(newO, v)
 	}
-	options = newO
 	args := []string{
 		path,
-		"--host", host,
-		"--port", strconv.Itoa(port),
+		"--host", c.Host,
+		"--port", c.Port,
 	}
-	args = append(args, options...)
+	args = append(args, newO...)
 	l := make([]string, 0, lineLimit)
 	l = append(l, strings.Join(args, ""))
 	return &VoiceVox{
-		Api: api.New("http://" + host + ":" + strconv.Itoa(port) + "/"),
+		Api: api.New("http://" + c.Host + ":" + c.Port + "/"),
 		cmd: args,
 	}
 }
@@ -71,9 +76,12 @@ func (v *VoiceVox) Start() error {
 	if v.running.Load() {
 		return nil
 	}
+	if v.isRemote {
+		return nil
+	}
 	v.running.Store(true)
-	if portkill.IsPortOpen(port) {
-		portkill.KillPort(port)
+	if portkill.IsPortOpen(v.port) {
+		portkill.KillPort(v.port)
 	}
 	v.closed = make(chan struct{})
 	v.closeBack = make(chan struct{})
