@@ -19,6 +19,7 @@ type Config struct {
 	RecvPort        int      `json:"recv_port"`
 	EnableTypingMsg bool     `json:"enable_typing_msg"`
 	RealtimeSend    bool     `json:"realtime"`
+	MsgKeeping      bool     `json:"msg_keeping"`
 	TTS             bool     `json:"tts"`
 	VoiceControl    bool     `json:"voice_control"`
 	VoiceVox        VoiceVox `json:"voicevox"`

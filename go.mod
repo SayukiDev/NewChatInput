@@ -8,9 +8,11 @@ require (
 	github.com/SayukiDev/Beep v0.0.0-20250422040553-23024ff4fb00
 	github.com/SayukiDev/VRCOSC v0.0.0-20241230022415-86a01a77425e
 	github.com/go-resty/resty/v2 v2.16.5
+	github.com/gorilla/websocket v1.5.3
 	github.com/orcaman/concurrent-map/v2 v2.0.1
 	github.com/sirupsen/logrus v1.9.3
 	github.com/wailsapp/wails/v2 v2.10.1
+	go.uber.org/atomic v1.7.0
 )
 
 require (
@@ -42,7 +44,6 @@ require (
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/wailsapp/go-webview2 v1.0.19 // indirect
 	github.com/wailsapp/mimetype v1.4.1 // indirect
-	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/multierr v1.9.0 // indirect
 	golang.org/x/crypto v0.33.0 // indirect
 	golang.org/x/net v0.35.0 // indirect

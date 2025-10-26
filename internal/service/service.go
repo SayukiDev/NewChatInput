@@ -6,14 +6,16 @@ import (
 	"ChatInput/pkg/voicevox"
 	"context"
 	"github.com/SayukiDev/VRCOSC"
+	"go.uber.org/atomic"
 )
 
 type Service struct {
-	OSC    *VRCOSC.VRCOsc
-	VV     *voicevox.VoiceVox
-	Option *options.Options
-	Tasks  *tasks.Tasks
-	AppCtx context.Context
+	OSC               *VRCOSC.VRCOsc
+	ChatBoxKeepingMsg atomic.String
+	VV                *voicevox.VoiceVox
+	Option            *options.Options
+	Tasks             *tasks.Tasks
+	AppCtx            context.Context
 }
 
 func New(opt *options.Options) *Service {

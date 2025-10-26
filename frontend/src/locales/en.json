@@ -54,6 +54,7 @@
     "portPlaceholder": "Enter VoiceVox port number",
     "validationRequired": "This field is required",
     "validationPortRange": "Port must be between 1 and 65535",
-    "remoteMode": "Remote Mode"
+    "remoteMode": "Remote Mode",
+    "msgKeeping": "Keep Message"
   }
 }

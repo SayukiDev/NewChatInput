@@ -28,6 +28,11 @@ func (t *Tasks) Add(name string, handle Handle) error {
 	return nil
 }
 
+func (t *Tasks) Exist(name string) bool {
+	_, ok := t.runners.Get(name)
+	return ok
+}
+
 func (t *Tasks) Remove(name string) error {
 	r, e := t.runners.Get(name)
 	if !e {

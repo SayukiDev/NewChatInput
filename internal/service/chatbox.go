@@ -1,7 +1,9 @@
 package service
 
 import (
+	"fmt"
 	"github.com/SayukiDev/Beep"
+	"time"
 )
 
 func (s *Service) SendChatboxMsg(text string, tts bool, disableSfx bool) error {
@@ -33,5 +35,29 @@ func (s *Service) SendChatboxMsg(text string, tts bool, disableSfx bool) error {
 			return err
 		}
 	}
+	if s.Option.MsgKeeping {
+		s.ChatBoxKeepingMsg.Store(text)
+	} else {
+		if s.ChatBoxKeepingMsg.Load() != "" {
+			s.ChatBoxKeepingMsg.Store("")
+		}
+	}
 	return nil
+}
+
+func (s *Service) keepingMsgTask(c chan struct{}) {
+	for range time.Tick(time.Second * 3) {
+		select {
+		case <-c:
+			return
+		default:
+		}
+		if s.ChatBoxKeepingMsg.Load() != "" {
+			err := s.SendChatboxMsg(s.ChatBoxKeepingMsg.Load(), false, true)
+			if err != nil {
+				fmt.Println("Warn: [ Chatbox keeping msg error:", err, "]")
+			}
+		}
+	}
+	return
 }

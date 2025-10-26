@@ -54,6 +54,7 @@
     "portPlaceholder": "VoiceVoxのポート番号を入力",
     "validationRequired": "この項目は必須です",
     "validationPortRange": "ポートは1から65535の間で指定してください",
-    "remoteMode": "リモートモード"
+    "remoteMode": "リモートモード",
+    "msgKeeping": "メッセージを維持"
   }
 }
