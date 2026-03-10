@@ -3,39 +3,57 @@ package service
 import (
 	"ChatInput/options"
 	"ChatInput/pkg/tasks"
-	"ChatInput/pkg/voicevox"
 	"context"
+
 	"github.com/SayukiDev/VRCOSC"
-	"go.uber.org/atomic"
 )
 
 type Service struct {
-	OSC               *VRCOSC.VRCOsc
-	ChatBoxKeepingMsg atomic.String
-	VV                *voicevox.VoiceVox
-	Option            *options.Options
-	Tasks             *tasks.Tasks
-	AppCtx            context.Context
+	OSC    *VRCOSC.VRCOsc
+	Option *options.Options
+	Tasks  *tasks.Tasks
+	AppCtx context.Context
+
+	// Sub Services
+	ChatBox *ChatBox
+
+	// Sub Services Control
+	servicesControl []subService
 }
 
-func New(opt *options.Options) *Service {
+type subService interface {
+	Start() error
+	Close() error
+}
+
+func New(opt *options.Options) (*Service, error) {
 	s := &Service{
 		Option: opt,
 		Tasks:  tasks.New(),
 	}
-	return s
+	c, err := newChatBox(opt, s)
+	if err != nil {
+		return nil, err
+	}
+	s.ChatBox = c
+	s.servicesControl = append(s.servicesControl, c)
+	return s, nil
 }
 
 func (s *Service) Start(ctx context.Context) error {
-	s.initOsc(s.Option)
-	err := s.initVoiceVox(s.Option)
-	if err != nil {
-		return err
-	}
 	s.AppCtx = ctx
+	for _, c := range s.servicesControl {
+		err := c.Start()
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
 func (s *Service) Close() error {
-	return s.VV.Close()
+	for _, c := range s.servicesControl {
+		_ = c.Close()
+	}
+	return nil
 }

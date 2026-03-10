@@ -1,24 +1,32 @@
-import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { defineStore } from 'pinia'
+import { IsLoaded } from '../../wailsjs/go/pages/App'
 
-// App store for managing application state
 export const useAppStore = defineStore('app', () => {
-  // Controls whether full input mode is enabled
-  const isFullInputMode = ref(false)
+  const isReady = ref(false)
+  let timer: ReturnType<typeof setInterval> | null = null
 
-  // Toggle the input mode
-  const toggleInputMode = () => {
-    isFullInputMode.value = !isFullInputMode.value
+  async function startPolling() {
+    if (isReady.value) return
+    timer = setInterval(async () => {
+      try {
+        const loaded = await IsLoaded()
+        if (loaded) {
+          isReady.value = true
+          stopPolling()
+        }
+      } catch {
+        // backend not ready yet
+      }
+    }, 500)
   }
 
-  // Set input mode to a specific value
-  const setInputMode = (value: boolean) => {
-    isFullInputMode.value = value
+  function stopPolling() {
+    if (timer) {
+      clearInterval(timer)
+      timer = null
+    }
   }
 
-  return {
-    isFullInputMode,
-    toggleInputMode,
-    setInputMode
-  }
+  return { isReady, startPolling, stopPolling }
 })

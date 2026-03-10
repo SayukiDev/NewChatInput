@@ -1,0 +1,18 @@
+@use 'primeicons/primeicons.css';
+
+body {
+  margin: 0;
+  user-select: none;
+  font-family: system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  background-color: #fff;
+  color: #3d1a2e;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff;
+}

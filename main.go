@@ -3,6 +3,7 @@ package main
 import (
 	app2 "ChatInput/internal/app"
 	"embed"
+
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
@@ -13,12 +14,15 @@ var assets embed.FS
 
 func main() {
 	// Create an instance of the app structure
-	app := app2.NewApp()
+	app, err := app2.NewApp()
+	if err != nil {
+		panic(err)
+	}
 	ao := &options.App{
-		Title:         "ChatInput",
-		Width:         600,
-		Height:        560,
-		DisableResize: true,
+		Title:  "ChatInput",
+		Width:  700,
+		Height: 590,
+		//DisableResize: true,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
@@ -28,7 +32,7 @@ func main() {
 	}
 	ao.Bind = app.Binds()
 	// Create application with options
-	err := wails.Run(ao)
+	err = wails.Run(ao)
 	if err != nil {
 		panic(err)
 	}

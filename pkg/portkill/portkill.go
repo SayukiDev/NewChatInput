@@ -23,8 +23,9 @@ func KillPort(port string) error {
 	return nil
 }
 
-func execCmd(cmd *exec.Cmd) error {
-	if err := cmd.Run(); err != nil {
+func execCmd(c *exec.Cmd) error {
+	c.SysProcAttr = cmd.HideWindowAttr()
+	if err := c.Run(); err != nil {
 		return fmt.Errorf("failed to execute command: %w", err)
 	}
 	return nil

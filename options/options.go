@@ -1,6 +1,7 @@
 package options
 
 import (
+	"ChatInput/internal/tts"
 	"encoding/json"
 	"os"
 	"sync"
@@ -15,28 +16,17 @@ type Options struct {
 }
 
 type Config struct {
-	SendPort        int      `json:"send_port"`
-	RecvPort        int      `json:"recv_port"`
-	EnableTypingMsg bool     `json:"enable_typing_msg"`
-	RealtimeSend    bool     `json:"realtime"`
-	MsgKeeping      bool     `json:"msg_keeping"`
-	TTS             bool     `json:"tts"`
-	VoiceControl    bool     `json:"voice_control"`
-	VoiceVox        VoiceVox `json:"voicevox"`
+	SendPort        int        `json:"send_port"`
+	RecvPort        int        `json:"recv_port"`
+	EnableTypingMsg bool       `json:"enable_typing_msg"`
+	RealtimeSend    bool       `json:"realtime"`
+	MsgKeeping      bool       `json:"msg_keeping"`
+	VoiceControl    bool       `json:"voice_control"`
+	TTS             bool       `json:"tts"`
+	TTSOption       tts.Option `json:"tts_option"`
 }
 
 type HookFunc func(o *Options) error
-
-type VoiceVox struct {
-	IsRemote  bool     `json:"is_remote"`
-	Host      string   `json:"host"`
-	Port      string   `json:"port"`
-	AutoStart bool     `json:"auto_start"`
-	Path      string   `json:"path"`
-	LineLimit int      `json:"line_limit"`
-	Selected  int      `json:"selected"`
-	Args      []string `json:"args"`
-}
 
 func NewOptions(p string) *Options {
 	return &Options{
@@ -47,15 +37,7 @@ func NewOptions(p string) *Options {
 			RealtimeSend: false,
 			TTS:          false,
 			VoiceControl: false,
-			VoiceVox: VoiceVox{
-				IsRemote:  false,
-				Host:      "127.0.0.1",
-				Port:      "50021",
-				AutoStart: false,
-				Path:      "./windows-nvidia/run.exe",
-				LineLimit: 50,
-				Selected:  -1,
-			},
+			TTSOption:    tts.NewOption(),
 		},
 	}
 }
