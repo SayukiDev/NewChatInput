@@ -22,6 +22,7 @@ type Config struct {
 	RealtimeSend    bool       `json:"realtime"`
 	MsgKeeping      bool       `json:"msg_keeping"`
 	VoiceControl    bool       `json:"voice_control"`
+	TTS             bool       `json:"tts"`
 	TTSOption       tts.Option `json:"tts_option"`
 }
 
@@ -34,6 +35,7 @@ func NewOptions(p string) *Options {
 			SendPort:     9000,
 			RecvPort:     9001,
 			RealtimeSend: false,
+			TTS:          true,
 			VoiceControl: false,
 			TTSOption:    tts.NewOption(),
 		},
