@@ -59,6 +59,15 @@ async function loadTTS() {
 
 watch(() => optionsStore.config, loadTTS, { immediate: true })
 
+async function installSpeaker() {
+  try {
+    await ttsStore.installModel()
+    toast.add({ severity: 'success', summary: t('tts.install.successSummary'), detail: t('tts.install.successDetail'), life: 3000 })
+  } catch {
+    toast.add({ severity: 'error', summary: t('tts.install.errorSummary'), detail: t('tts.install.errorDetail'), life: 5000 })
+  }
+}
+
 async function save() {
   try {
     await optionsStore.saveConfig().then(() => {
@@ -81,6 +90,15 @@ async function save() {
         <template v-if="optionsStore.config.tts">
           <SpeakerSelector />
           <AudioDeviceSelector style="margin-top: 0.75rem;" />
+          <Button
+            style="margin-top: 0.75rem;"
+            :label="$t('tts.install.button')"
+            icon="pi pi-download"
+            severity="secondary"
+            :loading="ttsStore.isInstalling"
+            :disabled="ttsStore.isInstalling"
+            @click="installSpeaker"
+          />
         </template>
         <p v-else class="disabled-notice">{{ $t('tts.disabledNotice') }}</p>
       </template>

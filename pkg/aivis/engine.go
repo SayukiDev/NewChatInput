@@ -4,8 +4,10 @@ import (
 	execCmd "ChatInput/pkg/cmd"
 	"ChatInput/pkg/portkill"
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
+	"path"
 	"strconv"
 	"strings"
 )
@@ -43,6 +45,29 @@ func (e *Engine) IsRunning() (bool, error) {
 	default:
 	}
 	return true, nil
+}
+
+func (e *Engine) InstallModel(modelPath string) error {
+	modelPath = strings.ToLower(modelPath)
+	if !strings.Contains(path.Ext(modelPath), ".aivmx|.aivm") {
+		return fmt.Errorf("invalid model file: %s", modelPath)
+	}
+	f, err := os.Open(modelPath)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	ucp, err := os.UserConfigDir()
+	if err != nil {
+		return err
+	}
+	f2, err := os.OpenFile(path.Join(ucp, "AivisSpeech-Engine\\Models"), os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0666)
+	if err != nil {
+		return err
+	}
+	defer f2.Close()
+	_, err = io.Copy(f2, f)
+	return nil
 }
 
 func (e *Engine) Start() error {

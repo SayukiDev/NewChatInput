@@ -194,3 +194,7 @@ func (t *TTS) Logs(limit int) (string, error) {
 	}
 	return strings.Join(lines, "\n"), nil
 }
+
+func (t *TTS) InstallModel(modelPath string) error {
+	return t.ae.InstallModel(modelPath)
+}

@@ -42,5 +42,12 @@ export default {
     engine: { baseurl: 'Base URL', path: 'Engine Path', args: 'Launch Arguments (space-separated)', log: 'Log Path', run: 'Auto-start Engine', statusRunning: 'Engine is running', statusStopped: 'Engine is stopped' },
     cache: { enable: 'Enable Cache', path: 'Cache Path' },
     disabledNotice: 'TTS is disabled. Enable it from the Options tab.',
+    install: {
+      button: 'Install Speaker',
+      successSummary: 'Install Complete',
+      successDetail: 'Speaker installation completed.',
+      errorSummary: 'Error',
+      errorDetail: 'Failed to install speaker.',
+    },
   },
 } as const

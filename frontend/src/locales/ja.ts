@@ -42,5 +42,12 @@ export default {
     engine: { baseurl: 'ベースURL', path: 'エンジンパス', args: '起動引数（スペース区切り）', log: 'ログパス', run: 'エンジン自動起動', statusRunning: 'エンジンは実行されています', statusStopped: 'エンジンは停止しています' },
     cache: { enable: 'キャッシュを有効にする', path: 'キャッシュパス' },
     disabledNotice: '読み上げが無効です。設定タブから読み上げを有効にしてください。',
+    install: {
+      button: '話者をインストール',
+      successSummary: 'インストール完了',
+      successDetail: '話者のインストールが完了しました。',
+      errorSummary: 'エラー',
+      errorDetail: '話者のインストールに失敗しました。',
+    },
   },
 } as const

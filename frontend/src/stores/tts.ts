@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import {
   GetAudioDevice,
   GetSpackers,
+  InstallModel,
   SaveAudioDevice,
   SaveSpacker,
   SelectedSpacker,
@@ -18,6 +19,7 @@ export const useTTSStore = defineStore('tts', () => {
   const devices = ref<tts.Device[]>([])
   const selectedDeviceId = ref<string>('')
   const isRunning = ref(false)
+  const isInstalling = ref(false)
 
   async function checkIsRunning() {
     try {
@@ -65,6 +67,16 @@ export const useTTSStore = defineStore('tts', () => {
     selectedDeviceId.value = id
   }
 
+  async function installModel() {
+    isInstalling.value = true
+    try {
+      await InstallModel()
+      await loadSpeakers()
+    } finally {
+      isInstalling.value = false
+    }
+  }
+
   return {
     speakers,
     currentSpeakerId,
@@ -72,12 +84,14 @@ export const useTTSStore = defineStore('tts', () => {
     devices,
     selectedDeviceId,
     isRunning,
+    isInstalling,
     loadSpeakers,
     loadCurrentSpeaker,
     loadDevices,
     selectSpeaker,
     selectStyle,
     selectDevice,
+    installModel,
     checkIsRunning,
   }
 })

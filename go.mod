@@ -9,7 +9,6 @@ require (
 	github.com/gen2brain/malgo v0.11.24
 	github.com/gentlemanautomaton/winobj v0.0.0-20250415033905-21826c52876d
 	github.com/go-resty/resty/v2 v2.16.5
-	github.com/gorilla/websocket v1.5.3
 	github.com/hajimehoshi/go-mp3 v0.3.4
 	github.com/klauspost/compress v1.18.4
 	github.com/orcaman/concurrent-map/v2 v2.0.1
@@ -54,4 +53,5 @@ require (
 )
 
 replace github.com/gentlemanautomaton/winobj v0.0.0-20250415033905-21826c52876d => github.com/SayukiDev/winobj v0.0.0-20250415033905-21826c52876d
+
 // replace github.com/wailsapp/wails/v2 v2.10.1 => C:\Users\Sayuki\go\pkg\mod

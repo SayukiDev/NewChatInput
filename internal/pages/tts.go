@@ -3,6 +3,8 @@ package pages
 import (
 	"ChatInput/internal/tts"
 	"ChatInput/pkg/aivis"
+
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 type TTS struct {
@@ -69,4 +71,19 @@ func (o *TTS) ReadLog() (string, error) {
 func (o *TTS) IsRunning() bool {
 	r, _ := o.srv.ChatBox.TTS.IsStarted()
 	return r
+}
+
+func (o *TTS) InstallModel() error {
+	p, err := runtime.OpenFileDialog(o.srv.AppCtx, runtime.OpenDialogOptions{
+		Filters: []runtime.FileFilter{
+			{
+				DisplayName: "Model(*.aivmx, *.aivm)",
+				Pattern:     "*.aivmx;*.aivm",
+			},
+		},
+	})
+	if err != nil {
+		return err
+	}
+	return o.srv.ChatBox.TTS.InstallModel(p)
 }
