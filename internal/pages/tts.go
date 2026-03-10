@@ -26,6 +26,7 @@ func (o *TTS) GetSpackers() ([]aivis.Speaker, error) {
 
 func (o *TTS) SaveSpacker(s int64) (err error) {
 	o.srv.Option.TTSOption.NowSpacker = s
+	o.srv.ChatBox.TTS.SetSpacker(s)
 	err = o.srv.Option.Save()
 	if err != nil {
 		return err

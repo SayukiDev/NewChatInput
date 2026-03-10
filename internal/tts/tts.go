@@ -120,6 +120,10 @@ func (t *TTS) GetSpeakers() ([]aivis.Speaker, error) {
 	return t.a.Speakers()
 }
 
+func (t *TTS) SetSpacker(s int64) {
+	t.o.NowSpacker = s
+}
+
 func (t *TTS) SetDevice(id string) error {
 	ds, err := malgo2.GetDevices()
 	if err != nil {
