@@ -26,6 +26,8 @@ export default {
       savedDetail: '設定を保存しました。',
       errorSummary: 'エラー',
       errorDetail: '設定の保存に失敗しました。',
+      restartWarnSummary: '注意',
+      restartWarnDetail: '一部の変更は再起動する必要があります。',
     },
     port: { send: '送信ポート', receive: '受信ポート' },
     speaker: {
@@ -48,6 +50,7 @@ export default {
       successDetail: '話者のインストールが完了しました。',
       errorSummary: 'エラー',
       errorDetail: '話者のインストールに失敗しました。',
+      restartWarnDetail: 'インストールされた話者を使うには再起動する必要があります。',
     },
   },
 } as const

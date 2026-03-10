@@ -60,12 +60,15 @@ async function loadTTS() {
 watch(() => optionsStore.config, loadTTS, { immediate: true })
 
 async function installSpeaker() {
-  try {
-    await ttsStore.installModel()
+  await ttsStore.installModel().then(()=>{
     toast.add({ severity: 'success', summary: t('tts.install.successSummary'), detail: t('tts.install.successDetail'), life: 3000 })
-  } catch {
-    toast.add({ severity: 'error', summary: t('tts.install.errorSummary'), detail: t('tts.install.errorDetail'), life: 5000 })
-  }
+    toast.add({ severity: 'warn', summary: t('options.toast.restartWarnSummary'), detail: t('tts.install.restartWarnDetail'), life: 3000 })
+  }).
+  catch((error)=>{
+    toast.add({ severity: 'error', summary: t('tts.install.errorSummary'), detail: t('tts.install.errorDetail')+"\n"+error, life: 5000 })
+    console.error(error)
+  })
+
 }
 
 async function save() {
@@ -74,7 +77,7 @@ async function save() {
       toast.add({ severity: 'success', summary: t('options.toast.savedSummary'), detail: t('options.toast.savedDetail'), life: 3000 })
     })
     await loadTTS()
-    toast.add({ severity: 'warn', summary: "注意", detail: "一部の変更は再起動する必要があります。", life: 3000 })
+    toast.add({ severity: 'warn', summary: t('options.toast.restartWarnSummary'), detail: t('options.toast.restartWarnDetail'), life: 3000 })
   } catch (e) {
     toast.add({ severity: 'error', summary: t('options.toast.errorSummary'), detail: t('options.toast.errorDetail'), life: 5000 })
   }

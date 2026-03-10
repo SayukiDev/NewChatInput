@@ -13,7 +13,7 @@ async function save() {
     await optionsStore.saveConfig().then(()=>{
       toast.add({ severity: 'success', summary: t('options.toast.savedSummary'), detail: t('options.toast.savedDetail'), life: 3000 })
     })
-    toast.add({ severity: 'warn', summary: "注意", detail: "一部の変更は再起動する必要があります。", life: 3000 })
+    toast.add({ severity: 'warn', summary: t('options.toast.restartWarnSummary'), detail: t('options.toast.restartWarnDetail'), life: 3000 })
   } catch (e) {
     toast.add({ severity: 'error', summary: t('options.toast.errorSummary'), detail: t('options.toast.errorDetail'), life: 5000 })
   }

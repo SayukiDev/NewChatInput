@@ -26,6 +26,8 @@ export default {
       savedDetail: 'Settings saved successfully.',
       errorSummary: 'Error',
       errorDetail: 'Failed to save settings.',
+      restartWarnSummary: 'Notice',
+      restartWarnDetail: 'Some changes require a restart to take effect.',
     },
     port: { send: 'Send Port', receive: 'Receive Port' },
     speaker: {
@@ -48,6 +50,7 @@ export default {
       successDetail: 'Speaker installation completed.',
       errorSummary: 'Error',
       errorDetail: 'Failed to install speaker.',
+      restartWarnDetail: 'A restart is required to use the installed speaker.',
     },
   },
 } as const
