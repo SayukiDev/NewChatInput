@@ -27,7 +27,7 @@ jobs:
         run: |
           mkdir temp
           cd temp
-          curl -L -o ChatInput.exe https://github.com/SayukiDev/NewChatInput/releases/download/latest/ChatInput.exe
+          curl -L -o ChatInput.exe https://github.com/SayukiDev/NewChatInput/releases/latest/download/ChatInput.exe
           curl -L -o AivisSpeech-Engine-Windows-x64-1.1.0-dev.7z.001 https://github.com/Aivis-Project/AivisSpeech-Engine/releases/download/1.1.0-dev/AivisSpeech-Engine-Windows-x64-1.1.0-dev.7z.001
           7z x AivisSpeech-Engine-Windows-x64-1.1.0-dev.7z.001
           mv Windows-x64 aivis
