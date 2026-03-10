@@ -32,7 +32,7 @@ func NewOption() Option {
 		Baseurl: "http://localhost:10101",
 		Run:     true,
 		Log:     "./tts_engine.log",
-		Path:    "./aivis/run.exe",
+		Path:    "./AivisSpeech/AivisSpeech-Engine/run.exe",
 		Args: []string{
 			"--host", "127.0.0.1",
 			"--port", "10101",

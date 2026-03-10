@@ -35,7 +35,7 @@ func NewOptions(p string) *Options {
 			SendPort:     9000,
 			RecvPort:     9001,
 			RealtimeSend: false,
-			TTS:          false,
+			TTS:          true,
 			VoiceControl: false,
 			TTSOption:    tts.NewOption(),
 		},
