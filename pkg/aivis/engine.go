@@ -7,7 +7,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
-	"path"
+	path "path/filepath"
 	"strconv"
 	"strings"
 )
@@ -47,9 +47,9 @@ func (e *Engine) IsRunning() (bool, error) {
 	return true, nil
 }
 
-func (e *Engine) InstallModel(modelPath string) error {
+func installModel(modelPath string) error {
 	modelPath = strings.ToLower(modelPath)
-	if !strings.Contains(path.Ext(modelPath), ".aivmx|.aivm") {
+	if !strings.Contains(".aivmx|.aivm", path.Ext(modelPath)) {
 		return fmt.Errorf("invalid model file: %s", modelPath)
 	}
 	f, err := os.Open(modelPath)
@@ -61,13 +61,17 @@ func (e *Engine) InstallModel(modelPath string) error {
 	if err != nil {
 		return err
 	}
-	f2, err := os.OpenFile(path.Join(ucp, "AivisSpeech-Engine\\Models"), os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0666)
+	f2, err := os.OpenFile(path.Join(ucp, "AivisSpeech-Engine\\Models", path.Base(modelPath)), os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0666)
 	if err != nil {
 		return err
 	}
 	defer f2.Close()
 	_, err = io.Copy(f2, f)
 	return nil
+}
+
+func (e *Engine) InstallModel(modelPath string) error {
+	return installModel(modelPath)
 }
 
 func (e *Engine) Start() error {

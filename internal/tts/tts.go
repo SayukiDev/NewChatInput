@@ -196,5 +196,8 @@ func (t *TTS) Logs(limit int) (string, error) {
 }
 
 func (t *TTS) InstallModel(modelPath string) error {
+	if t.ae == nil {
+		return errors.New("engine not started")
+	}
 	return t.ae.InstallModel(modelPath)
 }
