@@ -35,11 +35,6 @@ jobs:
           Compress-Archive -Path ./* -DestinationPath ChatInputWithTTS.zip
           mv ChatInputWithTTS.zip ../
           cd ../
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ChatInput.zip
-          path: ChatInput.zip
       - name: Release
         uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
