@@ -1,35 +1,36 @@
 # CHATInput
+
 VRCHATのChatBox用入力補助プログラムです、TTS（読み上げ）機能付属しております。
 
 ## 使い方
+
 - 基本利用
-    1. BoothかReleaseからバイナリーファイルをダウンロードする、あるいは自分でソースコードからビルドしてバイナリーファイルを取得する。
-    2. `ChatInput.exe`を実行する。
-    3. オプションタブ内のオプションが問題ないかをチェックする。
-    4. 入力タブでなにか入力して送信ボタン押すかキーボードのEnter押せば正常に送信されるはずです。
-- TTS（読み上げ）
-    - Depsの準備
-        1. [VB-Cable](https://vb-audio.com/Cable/)をインストールする。
-        2. [VoiceVox Engine](https://github.com/VOICEVOX/voicevox_engine/releases)をダウンロードしてChatInput.exeと同じディレクトリに解凍する。
-        3. ChatInputのオプションタブのパスはVoiceVox Engineの位置に一致してるかを確認して起動ボタンを押す。
-    - 使用
-        1. ChatInputのオプションタブのTTS項目をOnにして、適当になにか入力して送信してWindowsの音量ミキサーで`ChatInput.exe`の出力デバイスを`CABLE Input`に設定する。
-        2. VRCHATでマイクデバイスを`CABLE Output`に設定する。
-        3. ほかは基本利用とおなじです。
+  1. バイナリファイル[ダウンロードする](https://github.com/SayukiDev/NewChatInput/releases/latest/download/ChatInputWithTTS.zip)、
+     あるいは自分でソースコードからビルドしてバイナリーファイルを取得する。
+  2. `ChatInput.exe`を実行する。
+  3. チャットタブでなにか入力して送信ボタン押すかキーボードのEnter押せば正常に送信されるはずです。
+- TTS（読み上げ）の設定
+  - Depsの準備
+
+    1. [VB-Cable](https://vb-audio.com/Cable/)をインストールする。
+    2. 読み上げたぶで話者を選択して設定する
+    3. オーディオデバイスを`VB-Audio Virtul Cable`に設定する
+
 ## 問題
 
 ## TODO
+
 - RealTime Sendの実装
-- Typing Messageの実装
-- 出力デバイス自動と手動的に選択する機能の追加
 
 ## 注意事項
+
 - これは私が仕事の合間に作ったおもちゃ程度のプロジェクトなので、色々大雑把です。
 - バグの報告以外はIssuesを使わないでください。
 - 問題の修正はこちらが暇なときにだけさせていただきます。
 - 私が使いやすいように仕込んでるので、ほかの人にとっては使いづらい可能性があります。
 
 ## ライセンス
+
 本プロジェクトは [GNU一般公衆ライセンス3.0](https://www.gnu.org/licenses/gpl-3.0.ja.html) を基づき発行しております、ユーザーには使用、二次開発、二次配布などの自由があります。ただし二次開発する場合など本プロジェクトを利用していることの声明と二次開発後のソースコードを同じ [GNU一般公衆ライセンス3.0](https://www.gnu.org/licenses/gpl-3.0.ja.html) でオプンソースすることが必要です。具体的なライセンスの内容は [GNU一般公衆ライセンス](https://www.gnu.org/licenses/gpl-3.0.ja.html) をご覧ください。
 
 ```
@@ -50,5 +51,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ```
 
 # Thanks
+
 - [wails](https://wails.io/)
 - [VoiceVox Engine](https://github.com/VOICEVOX/voicevox_engine)
