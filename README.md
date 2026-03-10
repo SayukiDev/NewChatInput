@@ -65,3 +65,4 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 - [wails](https://wails.io/)
 - [VoiceVox Engine](https://github.com/VOICEVOX/voicevox_engine)
+- [AivisSpeech](https://github.com/Aivis-Project/AivisSpeech)
