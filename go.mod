@@ -54,5 +54,4 @@ require (
 )
 
 replace github.com/gentlemanautomaton/winobj v0.0.0-20250415033905-21826c52876d => github.com/SayukiDev/winobj v0.0.0-20250415033905-21826c52876d
-
 // replace github.com/wailsapp/wails/v2 v2.10.1 => C:\Users\Sayuki\go\pkg\mod

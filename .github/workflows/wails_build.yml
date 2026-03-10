@@ -23,3 +23,20 @@ jobs:
           build-name: ChatInput.exe
           build-platform: ${{ matrix.build.platform }}
           go-version: 1.24.4
+      - name: Download avis
+        run: |
+          mkdir temp
+          cp build/ChatInput.exe ./temp/ChatInput.exe
+          cd temp
+          wget https://github.com/Aivis-Project/AivisSpeech-Engine/releases/download/1.1.0-dev/AivisSpeech-Engine-Windows-x64-1.1.0-dev.7z.001
+          7z x AivisSpeech-Engine-Windows-x64-1.1.0-dev.7z.001
+          mv Windows-x64 aivis
+          rm AivisSpeech-Engine-Windows-x64-1.1.0-dev.7z.001
+          zip -r ChatInput.zip ./
+          mv ChatInput.zip ../ChatInput.zip
+          cd ../
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ChatInput.zip
+          path: ChatInput.zip
