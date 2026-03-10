@@ -26,9 +26,9 @@ jobs:
       - name: Download avis
         run: |
           mkdir temp
-          cp build/ChatInput.exe ./temp/ChatInput.exe
+          cp build/windows/ChatInput.exe ./temp/ChatInput.exe
           cd temp
-          wget https://github.com/Aivis-Project/AivisSpeech-Engine/releases/download/1.1.0-dev/AivisSpeech-Engine-Windows-x64-1.1.0-dev.7z.001
+          curl -L -o AivisSpeech-Engine-Windows-x64-1.1.0-dev.7z.001 https://github.com/Aivis-Project/AivisSpeech-Engine/releases/download/1.1.0-dev/AivisSpeech-Engine-Windows-x64-1.1.0-dev.7z.001
           7z x AivisSpeech-Engine-Windows-x64-1.1.0-dev.7z.001
           mv Windows-x64 aivis
           rm AivisSpeech-Engine-Windows-x64-1.1.0-dev.7z.001
